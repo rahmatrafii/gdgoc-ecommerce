@@ -51,8 +51,8 @@ func (uc *authUseCase) Register(ctx context.Context, req *domain.RegisterRequest
 		return nil, fmt.Errorf("hash.HashPassword: %w", domain.ErrInternal)
 	}
 
-	// Set Default Role
-	role := "user"
+	// Set default role for new registrants.
+	role := string(domain.RoleCustomer)
 
 	user := &domain.User{
 		Name:     req.Name,

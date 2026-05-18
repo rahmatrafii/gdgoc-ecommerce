@@ -67,6 +67,7 @@ mindmap
 | 6 | Payment | 📋 Planned | — |
 | 7 | Reviews & Ratings | 📋 Planned | — |
 | 8 | Admin Panel (advanced) | 📋 Planned | — |
+| 9 | Frontend Landing Page (Luxury Glassmorphism) | ✅ Done | [09-frontend-landing/00-README.md](09-frontend-landing/00-README.md) |
 
 ---
 
@@ -218,6 +219,32 @@ stateDiagram-v2
 > - Admin order status update → `/api/v1/admin/orders/{id}/status` (✅ Done, di Order Management)
 > - Admin CRUD product → di Product Catalog (✅ Done)
 > - Admin CRUD category → di Category Management (✅ Done)
+
+---
+
+### 🎨 9. Frontend Landing Page (React + TypeScript)
+
+| Fitur | Scope | Status | Priority |
+|-------|-------|--------|----------|
+| Premium Hero Section | Glassmorphism hero + CTA + floating cards | ✅ Done | 🔴 High |
+| Featured Categories | Curated + API-driven category cards | ✅ Done | 🔴 High |
+| New Arrivals Grid | Product cards + quick add-to-cart | ✅ Done | 🔴 High |
+| Limited Edition Banner | Countdown + drop CTA | ✅ Done | 🟡 Medium |
+| Best Seller Carousel | Horizontal luxury card carousel | ✅ Done | 🟡 Medium |
+| Why Choose Us | Feature cards with iconography | ✅ Done | 🟡 Medium |
+| Fashion Lookbook | Editorial campaign layout | ✅ Done | 🟡 Medium |
+| Testimonials | Review cards + ratings | ✅ Done | 🟢 Low |
+| Newsletter + Mobile + Footer | Conversion and support sections | ✅ Done | 🟡 Medium |
+
+**Implementasi Frontend:**
+- React + TypeScript via Vite
+- Tailwind utility workflow + custom glass styling
+- Local premium fonts: Syne + Manrope
+- Service/hook architecture (`services/`, `hooks/`)
+- API integration ke backend endpoint:
+  - `GET /api/v1/products`
+  - `GET /api/v1/categories`
+  - `POST /api/v1/cart/items` (quick add, auth-aware)
 
 ---
 

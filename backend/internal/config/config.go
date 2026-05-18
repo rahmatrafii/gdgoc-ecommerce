@@ -26,7 +26,13 @@ type Config struct {
 func Load() *Config {
 	_ = godotenv.Load()
 
-	jwtExp, err := strconv.Atoi(getEnv("JWT_EXPIRED_HOURS", "24"))
+	jwtExpiryHoursRaw := getEnv("JWT_EXPIRED_HOURS", "")
+	if jwtExpiryHoursRaw == "" {
+		// Backward-compatible fallback for older env naming.
+		jwtExpiryHoursRaw = getEnv("JWT_EXPIRATION_HOURS", "24")
+	}
+
+	jwtExp, err := strconv.Atoi(jwtExpiryHoursRaw)
 	if err != nil {
 		log.Printf("Invalid JWT_EXPIRED_HOURS, using default 24: %v", err)
 		jwtExp = 24

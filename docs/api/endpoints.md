@@ -1,167 +1,125 @@
-# 🔗 API Endpoints — E-Commerce Backend
+# API Endpoints - Current Backend Implementation
 
-> **Daftar lengkap semua REST API endpoints.**
+This document reflects endpoints currently implemented in `backend/internal/delivery/http/router/router.go`.
 
----
-
-## 📋 Base URL
+## Base URL
 
 ```
-Development : http://localhost:8080/api/v1
-Staging     : https://staging-api.example.com/api/v1
-Production  : https://api.example.com/api/v1
+http://localhost:<PORT>/api/v1
 ```
 
----
+`PORT` follows backend env (`PORT`, default `8080`).
 
-## 📊 Endpoint Summary
+## Public Endpoints
 
-| # | Group | Endpoints | Auth Required |
-|---|-------|-----------|---------------|
-| 1 | Auth | 6 | Partial |
-| 2 | Users | 6 | ✅ Yes |
-| 3 | Products | 6 | Partial |
-| 4 | Categories | 4 | Partial |
-| 5 | Cart | 5 | ✅ Yes |
-| 6 | Orders | 5 | ✅ Yes |
-| 7 | Payments | 4 | ✅ Yes |
-| 8 | Reviews | 4 | Partial |
-| 9 | Admin | 4 | ✅ Admin Only |
-| | **Total** | **44** | |
-
----
-
-## 🔐 Authentication
+### Health
 
 ```
-Authorization: Bearer <jwt_token>
+GET /health
 ```
 
----
-
-## 📝 Detailed Endpoints
-
-### 🔐 Auth
+### Swagger
 
 ```
-POST   /auth/register          # Register user baru
-POST   /auth/login             # Login & dapatkan token
-POST   /auth/refresh           # Refresh expired token
-POST   /auth/logout            # Invalidate token
-POST   /auth/forgot-password   # Kirim email reset password
-POST   /auth/reset-password    # Reset password dengan token
+GET /swagger/*
 ```
 
-### 👤 Users
+### Auth
 
 ```
-GET    /users/me                 # Get profil sendiri         [Auth]
-PUT    /users/me                 # Update profil sendiri      [Auth]
-PUT    /users/me/password        # Ganti password             [Auth]
-POST   /users/me/addresses       # Tambah alamat              [Auth]
-GET    /users/me/addresses       # List alamat                [Auth]
-DELETE /users/me/addresses/:id   # Hapus alamat               [Auth]
+POST /auth/register
+POST /auth/login
+POST /auth/forgot-password
+POST /auth/reset-password
 ```
 
-### 📦 Products
+### Categories
 
 ```
-GET    /products                 # List products (+ filter, sort, search)
-GET    /products/:id             # Get product detail
-POST   /products                 # Create product             [Seller/Admin]
-PUT    /products/:id             # Update product             [Seller/Admin]
-DELETE /products/:id             # Delete product             [Seller/Admin]
-GET    /products/:id/reviews     # List reviews for product
+GET /categories
+GET /categories/{id}
 ```
 
-### 📂 Categories
+### Products
 
 ```
-GET    /categories               # List semua categories
-GET    /categories/:id           # Get category detail
-POST   /categories               # Create category            [Admin]
-PUT    /categories/:id           # Update category            [Admin]
+GET /products
+GET /products/{id}
 ```
 
-### 🛒 Cart
+Supported product query params:
+
+- `page`
+- `per_page`
+- `category`
+- `min_price`
+- `max_price`
+- `in_stock`
+- `q`
+
+## Authenticated Endpoints
+
+Require header:
 
 ```
-GET    /cart                     # Get cart items              [Auth]
-POST   /cart/items               # Add item to cart            [Auth]
-PUT    /cart/items/:id           # Update item quantity        [Auth]
-DELETE /cart/items/:id           # Remove item from cart       [Auth]
-DELETE /cart                     # Clear entire cart           [Auth]
+Authorization: Bearer <access_token>
 ```
 
-### 📑 Orders
+### Auth
 
 ```
-POST   /orders                   # Create order (checkout)    [Auth]
-GET    /orders                   # List my orders             [Auth]
-GET    /orders/:id               # Get order detail           [Auth]
-PUT    /orders/:id/cancel        # Cancel order               [Auth]
-PUT    /orders/:id/status        # Update status              [Seller/Admin]
+POST /auth/logout
 ```
 
-### 💳 Payments
+### Cart
 
 ```
-GET    /payments/methods         # List payment methods       [Auth]
-POST   /payments                 # Process payment            [Auth]
-GET    /payments/:id             # Get payment status         [Auth]
-POST   /payments/callback        # Payment gateway callback   [Webhook]
+GET /cart
+POST /cart/items
+PUT /cart/items/{productId}
+DELETE /cart/items/{productId}
+DELETE /cart
 ```
 
-### ⭐ Reviews
+### Orders
 
 ```
-POST   /products/:id/reviews     # Create review              [Auth, Buyer]
-GET    /products/:id/reviews     # List product reviews
-PUT    /reviews/:id              # Update my review           [Auth]
-DELETE /reviews/:id              # Delete my review           [Auth]
+POST /orders
+GET /orders
+GET /orders/{id}
+PUT /orders/{id}/cancel
 ```
 
-### 🛡️ Admin
+## Admin-Only Endpoints
+
+User must be authenticated and role `admin`.
+
+### Categories
 
 ```
-GET    /admin/users              # List all users             [Admin]
-PUT    /admin/users/:id/ban      # Ban/unban user             [Admin]
-GET    /admin/orders             # List all orders            [Admin]
-GET    /admin/dashboard          # Dashboard statistics       [Admin]
+POST /categories
+PUT /categories/{id}
 ```
 
----
-
-## 📐 Common Query Parameters
-
-| Parameter | Type | Default | Contoh |
-|-----------|------|---------|--------|
-| `page` | int | 1 | `?page=2` |
-| `per_page` | int | 20 | `?per_page=50` |
-| `sort_by` | string | `created_at` | `?sort_by=price` |
-| `sort_order` | string | `desc` | `?sort_order=asc` |
-| `q` | string | - | `?q=laptop` |
-
-### Product-specific Filters
-
-| Parameter | Type | Contoh |
-|-----------|------|--------|
-| `category` | string | `?category=electronics` |
-| `min_price` | float | `?min_price=100000` |
-| `max_price` | float | `?max_price=5000000` |
-| `in_stock` | bool | `?in_stock=true` |
-| `seller_id` | string | `?seller_id=abc123` |
-
----
-
-## 📖 Swagger UI
-
-Akses Swagger documentation di browser:
+### Products
 
 ```
-http://localhost:8080/swagger/index.html
+POST /products
+PUT /products/{id}
+DELETE /products/{id}
 ```
 
----
+### Orders
 
-*Terakhir diperbarui: 2026-05-03*
+```
+PUT /admin/orders/{id}/status
+```
+
+## Notes
+
+- This project currently does **not** expose user profile, payment, or review endpoints.
+- For request/response schema details, use Swagger:
+
+```
+http://localhost:<PORT>/swagger/index.html
+```

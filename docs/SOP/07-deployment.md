@@ -98,8 +98,8 @@ module.exports = {
       instances: 1,
       autorestart: true,
       env: {
-        APP_ENV: "production",
-        APP_PORT: "8080"
+        ENVIRONMENT: "production",
+        PORT: "8080"
       }
     },
     {
@@ -127,14 +127,19 @@ pm2 save
 
 | Variable | Deskripsi | Required |
 |----------|-----------|----------|
-| `APP_ENV` | `development`, `staging`, `production` | ✅ |
-| `APP_PORT` | Port server (default: 8080) | ❌ |
+| `ENVIRONMENT` | `development`, `staging`, `production` | ✅ |
+| `PORT` | Port server backend (default: 8080) | ❌ |
 | `MONGODB_URI` | MongoDB Atlas connection string | ✅ |
-| `MONGODB_DATABASE` | Nama database | ✅ |
+| `DB_NAME` | Nama database | ✅ |
 | `JWT_SECRET` | Secret key untuk JWT | ✅ |
-| `JWT_EXPIRATION` | Token expiration (default: 24h) | ❌ |
-| `LOG_LEVEL` | `debug`, `info`, `warn`, `error` | ❌ |
-| `CORS_ORIGINS` | Allowed CORS origins | ❌ |
+| `JWT_EXPIRED_HOURS` | JWT expiration jam (default: 24) | ❌ |
+| `JWT_EXPIRATION_HOURS` | Alias lama JWT expiration (opsional) | ❌ |
+| `SMTP_HOST` | SMTP server host | ❌ |
+| `SMTP_PORT` | SMTP server port | ❌ |
+| `SMTP_USER` | SMTP username | ❌ |
+| `SMTP_PASS` | SMTP password | ❌ |
+| `SMTP_SENDER_NAME` | Nama pengirim email | ❌ |
+| `SMTP_SENDER_EMAIL` | Email pengirim | ❌ |
 
 > ⚠️ **JANGAN PERNAH** commit `.env` file ke repository. Gunakan `.env.example` sebagai template.
 
@@ -143,12 +148,37 @@ pm2 save
 ## 🚀 Release Checklist
 
 - [ ] Semua tests passed (unit + integration)
+- [ ] Backend seed data sudah dijalankan untuk environment tujuan (jika perlu data awal)
 - [ ] Swagger docs up to date
 - [ ] Migration scripts ready (jika ada perubahan schema)
 - [ ] Environment variables documented
 - [ ] Changelog updated
 - [ ] Version tag created
 - [ ] Rollback plan documented
+
+---
+
+## 🔎 Local Deploy-Readiness Quick Check
+
+```bash
+# Backend
+cd backend
+make test
+make build
+make seed
+
+# Frontend
+cd ../frontend
+npm run build
+```
+
+Smoke API setelah backend running:
+
+```bash
+curl http://localhost:8081/health
+curl "http://localhost:8081/api/v1/categories"
+curl "http://localhost:8081/api/v1/products?page=1&per_page=8"
+```
 
 ---
 

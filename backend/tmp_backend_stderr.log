@@ -1,0 +1,31 @@
+2026/05/18 01:09:47 Successfully connected to MongoDB!
+2026/05/18 01:09:48 Starting HTTP server in development mode on port 18080...
+2026/05/18 01:10:02 [GET] /api/v1/products 67.0085ms
+2026/05/18 01:10:02 [GET] /api/v1/categories 29.8455ms
+2026/05/18 01:38:13 [GET] /api/v1/products 53.1472ms
+2026/05/18 01:38:13 [GET] /api/v1/categories 48.7432ms
+2026/05/18 01:38:14 [GET] /api/v1/products 52.2931ms
+2026/05/18 01:38:16 [GET] /api/v1/categories 25.6178ms
+2026/05/18 01:41:56 [GET] /api/v1/categories 39.3421ms
+2026/05/18 01:41:56 [GET] /api/v1/products 70.3738ms
+2026/05/18 01:41:56 [GET] /api/v1/products 52.2868ms
+2026/05/18 01:41:58 [GET] /api/v1/categories 26.887ms
+2026/05/18 01:47:08 [GET] /api/v1/categories 25.603ms
+2026/05/18 01:47:08 [GET] /api/v1/products 55.6098ms
+2026/05/18 01:47:09 [GET] /api/v1/products 51.6265ms
+2026/05/18 01:47:11 [GET] /api/v1/categories 25.5591ms
+2026/05/18 01:50:51 [GET] /api/v1/categories 27.1252ms
+2026/05/18 01:50:51 [GET] /api/v1/products 56.3971ms
+2026/05/18 02:14:25 [GET] /api/v1/categories 41.7117ms
+2026/05/18 02:14:25 [GET] /api/v1/products 89.688ms
+2026/05/18 02:14:25 [GET] /api/v1/categories 35.5287ms
+2026/05/18 02:14:27 [GET] /api/v1/products 62.5256ms
+2026/05/18 02:14:34 [OPTIONS] /api/v1/cart/items 2.5237ms
+2026/05/18 02:14:34 [POST] /api/v1/cart/items 509.2µs
+2026/05/18 02:14:39 [POST] /api/v1/cart/items 1.0007ms
+2026/05/18 02:14:43 [GET] /api/v1/products 51.5811ms
+2026/05/18 05:35:11 [GET] /v1/health 0s
+2026/05/18 05:35:47 [GET] /v1/health 0s
+2026/05/18 05:35:47 [POST] /v1/auth/login 0s
+2026/05/18 05:35:47 [POST] /v1/members/documents/upload-url 0s
+2026/05/18 05:35:47 [GET] /v1/invitations/validate 0s

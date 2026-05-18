@@ -1,8 +1,11 @@
-.PHONY: run build test lint swagger check fmt
+.PHONY: run seed build test lint swagger check fmt
 
 # Development
 run:
 	go run cmd/api/main.go
+
+seed:
+	go run cmd/seed/main.go
 
 # Build
 build:

@@ -173,6 +173,21 @@
 
 ---
 
+## Phase 8: Frontend Landing Experience (React) 🎨⚛️
+
+- [x] Initialize frontend project with Vite + React + TypeScript
+- [x] Configure Tailwind-based styling workflow
+- [x] Add local premium fonts into project assets
+- [x] Build reusable component system (`components/ui`, `components/cards`)
+- [x] Implement 11-section luxury landing page
+- [x] Integrate backend API via `services/` and custom `hooks/`
+- [x] Add quick add-to-cart flow (auth-aware)
+- [x] Ensure responsive desktop/mobile behavior
+- [x] Run frontend lint checks (`npm run lint`)
+- [x] Run frontend production build (`npm run build`)
+
+---
+
 ## 📈 Progress Tracker
 
 | Phase | Status | Progress |
@@ -185,7 +200,8 @@
 | Phase 5: Payment | 📋 Not Started | 0% |
 | Phase 6: Reviews & Admin | 📋 Not Started | 0% |
 | Phase 7: Polish | 📋 Not Started | 0% |
+| Phase 8: Frontend Landing | ✅ Done | 100% |
 
 ---
 
-*Terakhir diperbarui: 2026-05-03*
+*Terakhir diperbarui: 2026-05-17*

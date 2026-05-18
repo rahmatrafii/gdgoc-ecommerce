@@ -214,6 +214,9 @@ cp .env.example .env
 # Run server
 go run cmd/api/main.go
 
+# Seed sample categories/products for landing page
+go run cmd/seed/main.go
+
 # Run tests
 go test ./internal/... -v
 
@@ -264,7 +267,7 @@ code-review-graph status
 Setelah backend berjalan, akses Swagger UI di:
 
 ```
-http://localhost:8080/swagger/index.html
+http://localhost:<PORT>/swagger/index.html
 ```
 
 ### API Response Format
