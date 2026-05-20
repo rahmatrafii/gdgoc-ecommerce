@@ -21,6 +21,7 @@ type Config struct {
 	SmtpPass        string
 	SmtpSenderName  string
 	SmtpSenderEmail string
+	AllowedOrigin   string
 }
 
 func Load() *Config {
@@ -51,6 +52,7 @@ func Load() *Config {
 		SmtpPass:        getEnv("SMTP_PASS", ""),
 		SmtpSenderName:  getEnv("SMTP_SENDER_NAME", "E-Commerce Admin"),
 		SmtpSenderEmail: getEnv("SMTP_SENDER_EMAIL", "no-reply@ecommerce.com"),
+		AllowedOrigin:   getEnv("ALLOWED_ORIGIN", "*"),
 	}
 }
 

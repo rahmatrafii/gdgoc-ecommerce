@@ -100,7 +100,7 @@ func main() {
 	// 8. Wrap with Middlewares
 	// Order of middleware execution: Recovery -> Logging -> CORS -> Router
 	var finalHandler http.Handler = mux
-	finalHandler = middleware.CORS()(finalHandler)
+	finalHandler = middleware.CORS(cfg.AllowedOrigin)(finalHandler)
 	finalHandler = middleware.Logging(finalHandler)
 	finalHandler = middleware.Recovery(finalHandler)
 
