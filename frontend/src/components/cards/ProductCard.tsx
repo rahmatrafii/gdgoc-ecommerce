@@ -1,5 +1,7 @@
 import { Heart, ShoppingBag, Star } from 'lucide-react';
 import { useMemo, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../../hooks/useAuth';
 import type { FashionProduct } from '../../types/catalog';
 import { cn } from '../../utils/cn';
 import { formatCompactNumber, formatCurrency } from '../../utils/formatters';
@@ -15,6 +17,8 @@ export default function ProductCard({ product, onQuickAdd }: ProductCardProps) {
 	const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 	const [imageFailed, setImageFailed] = useState<boolean>(false);
 	const isOutOfStock = product.stock <= 0;
+	const { isAuthenticated } = useAuth();
+	const navigate = useNavigate();
 
 	const imageSource = useMemo(() => {
 		if (imageFailed) {
@@ -25,6 +29,11 @@ export default function ProductCard({ product, onQuickAdd }: ProductCardProps) {
 	}, [imageFailed, product.hero_image, product.images]);
 
 	async function handleQuickAdd() {
+		if (!isAuthenticated) {
+			navigate('/login');
+			return;
+		}
+
 		if (!onQuickAdd || isOutOfStock) {
 			return;
 		}
@@ -40,15 +49,17 @@ export default function ProductCard({ product, onQuickAdd }: ProductCardProps) {
 	return (
 		<article className="group relative overflow-hidden rounded-[22px] border border-white/15 bg-white/[0.03] shadow-[0_14px_48px_rgba(6,8,18,0.45)] transition duration-500 hover:-translate-y-1 hover:border-cyan-200/45 hover:shadow-[0_24px_70px_rgba(88,102,255,0.35)]">
 			<div className="relative overflow-hidden">
-				<img
-					src={imageSource}
-					alt={product.name}
-					className="h-72 w-full object-cover transition duration-700 group-hover:scale-105"
-					loading="lazy"
-					onError={() => setImageFailed(true)}
-				/>
+				<Link to={`/product/${product.id}`} className="block">
+					<img
+						src={imageSource}
+						alt={product.name}
+						className="h-72 w-full object-cover transition duration-700 group-hover:scale-105"
+						loading="lazy"
+						onError={() => setImageFailed(true)}
+					/>
+				</Link>
 
-				<div className="absolute inset-0 bg-gradient-to-t from-[#05050f]/85 via-transparent to-transparent" />
+				<div className="absolute inset-0 bg-gradient-to-t from-[#05050f]/85 via-transparent to-transparent pointer-events-none" />
 
 				<p className="absolute left-4 top-4 rounded-full border border-cyan-100/45 bg-[#070b20]/60 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.22em] text-cyan-100 backdrop-blur">
 					{product.badge}
@@ -57,7 +68,13 @@ export default function ProductCard({ product, onQuickAdd }: ProductCardProps) {
 				<button
 					type="button"
 					aria-label={isWishlisted ? 'Remove from wishlist' : 'Add to wishlist'}
-					onClick={() => setIsWishlisted((state) => !state)}
+					onClick={() => {
+						if (!isAuthenticated) {
+							navigate('/login');
+							return;
+						}
+						setIsWishlisted((state) => !state);
+					}}
 					className="absolute right-4 top-4 rounded-full border border-white/25 bg-black/35 p-2 text-white transition hover:border-pink-200/70 hover:bg-pink-300/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pink-100">
 					<Heart
 						size={17}
@@ -74,9 +91,11 @@ export default function ProductCard({ product, onQuickAdd }: ProductCardProps) {
 					<p className="text-xs font-semibold uppercase tracking-[0.22em] text-slate-300/85">
 						{product.brand}
 					</p>
-					<h3 className="mt-2 text-balance text-xl font-semibold text-white">
-						{product.name}
-					</h3>
+					<Link to={`/product/${product.id}`}>
+						<h3 className="mt-2 text-balance text-xl font-semibold text-white transition hover:text-cyan-300">
+							{product.name}
+						</h3>
+					</Link>
 					<p className="mt-2 line-clamp-2 text-sm text-slate-200/75">
 						{product.description}
 					</p>

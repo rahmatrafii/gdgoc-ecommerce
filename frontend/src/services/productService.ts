@@ -17,3 +17,8 @@ export async function fetchProducts(
 		message: response.message,
 	};
 }
+
+export async function fetchProductById(id: string): Promise<Product> {
+	const response = await apiRequest<Product>(`/products/${id}`);
+	return response.data;
+}

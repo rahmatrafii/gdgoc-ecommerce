@@ -221,6 +221,7 @@ func mapCartToResponse(cart *domain.Cart) domain.CartResponse {
 			Price:     item.Price,
 			Quantity:  item.Quantity,
 			SubTotal:  item.SubTotal,
+			ImageURL:  item.ImageURL,
 		}
 	}
 	if len(resp.Items) == 0 {

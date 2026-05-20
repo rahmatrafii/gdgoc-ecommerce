@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import BestSellerSection from '../components/sections/BestSellerSection';
 import CategoriesSection from '../components/sections/CategoriesSection';
 import FooterSection from '../components/sections/FooterSection';
@@ -16,6 +17,7 @@ import { useProducts } from '../hooks/useProducts';
 import { ApiRequestError } from '../services/apiClient';
 import { addItemToCart } from '../services/cartService';
 import type { ProductQuery } from '../types/catalog';
+import { useAuth } from '../hooks/useAuth';
 
 type BannerTone = 'success' | 'error';
 
@@ -34,6 +36,8 @@ export default function LandingPage() {
 	const [searchValue, setSearchValue] = useState<string>('');
 	const [selectedCategoryID, setSelectedCategoryID] = useState<string>('');
 	const [stockOnly, setStockOnly] = useState<boolean>(true);
+	const { isAuthenticated } = useAuth();
+	const navigate = useNavigate();
 
 	const productQuery = useMemo<ProductQuery>(() => {
 		return {
@@ -95,6 +99,11 @@ export default function LandingPage() {
 	}, [bestSellers, products]);
 
 	async function handleQuickAdd(productID: string) {
+		if (!isAuthenticated) {
+			navigate('/login');
+			return;
+		}
+
 		try {
 			await addItemToCart(productID, 1);
 			setBanner({
@@ -123,54 +132,6 @@ export default function LandingPage() {
 		setStockOnly(true);
 	}
 
-	function focusNewArrivalsSearch() {
-		document
-			.querySelector('#new-arrivals')
-			?.scrollIntoView({ behavior: 'smooth' });
-
-		window.setTimeout(() => {
-			const searchInput = document.getElementById('new-arrivals-search');
-			if (searchInput instanceof HTMLInputElement) {
-				searchInput.focus();
-			}
-		}, 220);
-	}
-
-	function openCartShortcut() {
-		document
-			.querySelector('#new-arrivals')
-			?.scrollIntoView({ behavior: 'smooth' });
-
-		if (typeof window === 'undefined') {
-			return;
-		}
-
-		const rawGuestItems = window.localStorage.getItem('guest_cart_items');
-		let guestItems: unknown[] = [];
-
-		try {
-			guestItems = rawGuestItems
-				? (JSON.parse(rawGuestItems) as unknown[])
-				: [];
-		} catch (parseError) {
-			void parseError;
-			window.localStorage.removeItem('guest_cart_items');
-		}
-
-		if (guestItems.length > 0) {
-			setBanner({
-				message: `Guest cart currently has ${guestItems.length} item(s).`,
-				tone: 'success',
-			});
-			return;
-		}
-
-		setBanner({
-			message: 'Use Quick Add on products to start filling your cart.',
-			tone: 'success',
-		});
-	}
-
 	function handleLimitedDropAction() {
 		setSearchValue('limited');
 		setStockOnly(true);
@@ -181,10 +142,7 @@ export default function LandingPage() {
 
 	return (
 		<div className="luxury-background min-h-screen text-white">
-			<Navbar
-				onSearchClick={focusNewArrivalsSearch}
-				onCartClick={openCartShortcut}
-			/>
+			<Navbar />
 
 			<main className="mx-auto w-full max-w-[1240px] px-4 pb-24 sm:px-6 lg:px-10">
 				<HeroSection heroProducts={heroProducts} />

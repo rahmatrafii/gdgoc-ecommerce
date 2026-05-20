@@ -35,6 +35,16 @@ func (u *cartUseCase) GetCart(ctx context.Context, userID string) (*domain.Cart,
 		return nil, fmt.Errorf("failed to get cart: %w", err)
 	}
 
+	// Secara dinamis melengkapi ImageURL jika kosong (misalnya data keranjang lama di DB)
+	for i, item := range cart.Items {
+		if item.ImageURL == "" {
+			product, err := u.productRepo.GetByID(ctx, item.ProductID)
+			if err == nil && len(product.Images) > 0 {
+				cart.Items[i].ImageURL = product.Images[0]
+			}
+		}
+	}
+
 	return cart, nil
 }
 
@@ -76,10 +86,16 @@ func (u *cartUseCase) AddItem(ctx context.Context, userID string, req *domain.Ca
 	}
 
 	// 5. Update atau Insert item baru di cart array
+	var imageURL string
+	if len(product.Images) > 0 {
+		imageURL = product.Images[0]
+	}
+
 	if existingItem != nil {
 		cart.Items[existingIndex].Quantity = newQuantity
 		cart.Items[existingIndex].Price = product.Price // update harga ke terbaru
 		cart.Items[existingIndex].SubTotal = product.Price * float64(newQuantity)
+		cart.Items[existingIndex].ImageURL = imageURL
 	} else {
 		newItem := domain.CartItem{
 			ProductID: product.ID,
@@ -87,6 +103,7 @@ func (u *cartUseCase) AddItem(ctx context.Context, userID string, req *domain.Ca
 			Price:     product.Price,
 			Quantity:  req.Quantity,
 			SubTotal:  product.Price * float64(req.Quantity),
+			ImageURL:  imageURL,
 		}
 		cart.Items = append(cart.Items, newItem)
 	}
@@ -129,12 +146,17 @@ func (u *cartUseCase) UpdateItem(ctx context.Context, userID string, productID s
 	}
 
 	// 4. Update item
+	var imageURL string
+	if len(product.Images) > 0 {
+		imageURL = product.Images[0]
+	}
 	found := false
 	for i, item := range cart.Items {
 		if item.ProductID == productID {
 			cart.Items[i].Quantity = quantity
 			cart.Items[i].Price = product.Price
 			cart.Items[i].SubTotal = product.Price * float64(quantity)
+			cart.Items[i].ImageURL = imageURL
 			found = true
 			break
 		}

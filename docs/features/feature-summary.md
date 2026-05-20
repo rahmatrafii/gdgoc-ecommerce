@@ -144,6 +144,7 @@ mindmap
 - 1 user = 1 active cart
 - Stok dicek saat add/update (tanpa reserve)
 - Harga selalu diambil dari data produk terbaru
+- `image_url` diambil dari `product.Images[0]` saat add/update, dan di-populasi dinamis saat GetCart untuk data lama
 - Quantity <= 0 otomatis remove item
 - Optimistic locking via version field
 - Cart auto-clear setelah checkout
@@ -282,4 +283,4 @@ backend/internal/
 
 ---
 
-*Terakhir diperbarui: 2026-05-07*
+*Terakhir diperbarui: 2026-05-20*

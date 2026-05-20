@@ -97,6 +97,7 @@
   - [x] Add/Remove/Update cart items
   - [x] Stock validation
   - [x] Cart total calculation
+  - [x] Image URL population dari produk (dinamis saat GetCart + persist saat Add/Update)
 
 - [x] **Handler Layer**
   - [x] Cart handlers + Swagger
@@ -204,4 +205,4 @@
 
 ---
 
-*Terakhir diperbarui: 2026-05-17*
+*Terakhir diperbarui: 2026-05-20*

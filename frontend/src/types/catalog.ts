@@ -52,6 +52,7 @@ export interface CartLineItem {
 	price: number;
 	quantity: number;
 	sub_total: number;
+	image_url?: string;
 }
 
 export interface CartResponse {

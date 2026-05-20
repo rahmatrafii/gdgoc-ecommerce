@@ -19,7 +19,7 @@ function normalizeName(value: string): string {
 
 function composeCategoryCards(
 	categories: Category[],
-): Array<{ card: CategoryVisual; source: string }> {
+): Array<{ card: CategoryVisual; id: string; source: string }> {
 	return categories.map((category) => {
 		const defaultVisual = requiredCategoryVisuals.find(
 			(v) => normalizeName(v.name) === normalizeName(category.name),
@@ -33,6 +33,7 @@ function composeCategoryCards(
 					defaultVisual?.image ||
 					'https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1400&q=80',
 			},
+			id: category.id,
 			source: 'From API',
 		};
 	});
@@ -85,7 +86,7 @@ export default function CategoriesSection({
 						<CategoryCard
 							key={`${entry.card.name}-${index}`}
 							category={entry.card}
-							sourceLabel={entry.source}
+							categoryId={entry.id}
 						/>
 					))}
 				</div>

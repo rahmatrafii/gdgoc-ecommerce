@@ -53,6 +53,7 @@ backend/internal/
 5. Quantity <= 0 → auto remove item
 6. Optimistic locking via `version` field
 7. Cart auto-clear setelah checkout (Order usecase)
+8. `image_url` produk disimpan saat add/update item, dan di-populasi secara dinamis saat `GetCart` untuk data lama yang belum punya `image_url`
 
 ---
 
@@ -63,4 +64,4 @@ backend/internal/
 
 ---
 
-*Terakhir diperbarui: 2026-05-07*
+*Terakhir diperbarui: 2026-05-20*

@@ -1,0 +1,44 @@
+
+> frontend@0.0.0 lint
+> eslint .
+
+
+/home/rafi/Documents/belajar/GDGOC-Ecommerce/frontend/src/context/AuthContext.tsx
+  12:14  error  Fast refresh only works when a file only exports components. Move your React context(s) to a separate file                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           react-refresh/only-export-components
+  31:5   error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+/home/rafi/Documents/belajar/GDGOC-Ecommerce/frontend/src/context/AuthContext.tsx:31:5
+  29 | 			try {
+  30 | 				const parsedUser = JSON.parse(storedUser);
+> 31 | 				setUser(parsedUser);
+     | 				^^^^^^^ Avoid calling setState() directly within an effect
+  32 | 				setIsAuthenticated(true);
+  33 | 			} catch (error) {
+  34 | 				console.error('Failed to parse user from local storage:', error);  react-hooks/set-state-in-effect
+
+/home/rafi/Documents/belajar/GDGOC-Ecommerce/frontend/src/hooks/useCart.ts
+  28:3  error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+/home/rafi/Documents/belajar/GDGOC-Ecommerce/frontend/src/hooks/useCart.ts:28:3
+  26 |
+  27 | 	useEffect(() => {
+> 28 | 		fetchCart();
+     | 		^^^^^^^^^ Avoid calling setState() directly within an effect
+  29 | 	}, []);
+  30 |
+  31 | 	const updateQuantity = async (productID: string, quantity: number) => {  react-hooks/set-state-in-effect
+
+✖ 3 problems (3 errors, 0 warnings)
+

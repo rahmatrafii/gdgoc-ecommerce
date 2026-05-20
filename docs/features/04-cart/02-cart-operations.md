@@ -18,6 +18,31 @@
 4. Harga diambil dari data produk terbaru
 5. SubTotal = price × quantity
 6. Total cart di-recalculate
+7. `image_url` diambil dari `product.Images[0]` dan disimpan bersama item di cart
+
+## Response (200)
+
+```json
+{
+    "success": true,
+    "message": "Item added to cart successfully",
+    "data": {
+        "user_id": "664a...",
+        "items": [
+            {
+                "product_id": "665c...",
+                "name": "Aero Glide Pro",
+                "price": 1299000,
+                "quantity": 1,
+                "sub_total": 1299000,
+                "image_url": "https://images.unsplash.com/photo-xxx?auto=format&fit=crop&w=800&q=80"
+            }
+        ],
+        "total_amount": 1299000,
+        "updated_at": "..."
+    }
+}
+```
 
 ## Errors: 404 `NOT_FOUND`, 400 `INSUFFICIENT_STOCK`, 409 `CONFLICT`
 
@@ -30,6 +55,10 @@
 ## Endpoint: `PUT /api/v1/cart/items/{productId}` | Auth: ☑ Required
 
 ## Request: `{ "quantity": 3 }` | Quantity <= 0 → auto remove item
+
+## Business Rules
+
+- Harga dan `image_url` di-update dari data produk terbaru saat quantity diubah
 
 ## Errors: 404 `NOT_FOUND`, 400 `INSUFFICIENT_STOCK`
 

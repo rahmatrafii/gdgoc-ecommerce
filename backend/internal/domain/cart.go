@@ -5,13 +5,13 @@ import (
 	"time"
 )
 
-// CartItem represents a single item in the shopping cart.
 type CartItem struct {
 	ProductID string  `json:"product_id" bson:"product_id"`
 	Name      string  `json:"name" bson:"name"`
 	Price     float64 `json:"price" bson:"price"`
 	Quantity  int     `json:"quantity" bson:"quantity"`
 	SubTotal  float64 `json:"sub_total" bson:"sub_total"`
+	ImageURL  string  `json:"image_url" bson:"image_url"`
 }
 
 // Cart represents a user's shopping cart.
@@ -24,13 +24,13 @@ type Cart struct {
 	UpdatedAt   time.Time  `json:"updated_at" bson:"updated_at"`
 }
 
-// CartItemResponse is the DTO for sending cart items to the client.
 type CartItemResponse struct {
 	ProductID string  `json:"product_id"`
 	Name      string  `json:"name"`
 	Price     float64 `json:"price"`
 	Quantity  int     `json:"quantity"`
 	SubTotal  float64 `json:"sub_total"`
+	ImageURL  string  `json:"image_url"`
 }
 
 // CartResponse is the DTO for sending the cart to the client.
