@@ -20,42 +20,22 @@ function normalizeName(value: string): string {
 function composeCategoryCards(
 	categories: Category[],
 ): Array<{ card: CategoryVisual; source: string }> {
-	const byName = new Map(
-		categories.map((category) => [normalizeName(category.name), category]),
-	);
-
-	const curatedCards = requiredCategoryVisuals.map((item) => {
-		const match = byName.get(normalizeName(item.name));
+	return categories.map((category) => {
+		const defaultVisual = requiredCategoryVisuals.find(
+			(v) => normalizeName(v.name) === normalizeName(category.name),
+		);
 
 		return {
 			card: {
-				...item,
-				description: match?.description || item.description,
-			},
-			source: match ? 'From API' : 'Curated',
-		};
-	});
-
-	const extraCards = categories
-		.filter(
-			(category) =>
-				!requiredCategoryVisuals.some(
-					(required) =>
-						normalizeName(required.name) === normalizeName(category.name),
-				),
-		)
-		.slice(0, 2)
-		.map((category) => ({
-			card: {
 				name: category.name,
-				description: category.description || 'Premium category collection.',
+				description: category.description || defaultVisual?.description || 'Premium category collection.',
 				image:
+					defaultVisual?.image ||
 					'https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1400&q=80',
 			},
 			source: 'From API',
-		}));
-
-	return [...curatedCards, ...extraCards];
+		};
+	});
 }
 
 export default function CategoriesSection({
