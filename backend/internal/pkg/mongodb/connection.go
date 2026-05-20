@@ -10,16 +10,8 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/readpref"
 )
 
-// Gunakan variabel global untuk menyimpan koneksi agar tidak terus-menerus buka koneksi baru
-var clientInstance *mongo.Client
-
-// Connect membuat koneksi ke MongoDB Atlas (Singleton Pattern)
+// Connect membuat koneksi ke MongoDB Atlas / Local
 func Connect(uri string) *mongo.Client {
-    // Jika koneksi sudah ada, gunakan yang lama!
-	if clientInstance != nil {
-		return clientInstance
-	}
-
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 
@@ -36,8 +28,5 @@ func Connect(uri string) *mongo.Client {
 	}
 
 	log.Println("Successfully connected to MongoDB!")
-    
-    // Simpan koneksinya
-    clientInstance = client
-	return clientInstance
+	return client
 }
