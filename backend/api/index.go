@@ -63,6 +63,11 @@ func init() {
 	// 7. Setup Router (sama persis seperti di main.go)
 	mux := http.NewServeMux()
 
+	// Root endpoint
+	mux.HandleFunc("GET /{$}", func(w http.ResponseWriter, r *http.Request) {
+		deliveryHttp.Success(w, http.StatusOK, "selamat datang!", nil)
+	})
+
 	mux.HandleFunc("/health", func(w http.ResponseWriter, r *http.Request) {
 		if r.Method != http.MethodGet {
 			deliveryHttp.ErrorResponse(w, http.StatusMethodNotAllowed, "Method not allowed", "METHOD_NOT_ALLOWED", nil)

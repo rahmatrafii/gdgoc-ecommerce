@@ -75,6 +75,11 @@ func main() {
 	// 7. Setup Router
 	mux := http.NewServeMux()
 
+	// Root endpoint
+	mux.HandleFunc("GET /{$}", func(w http.ResponseWriter, r *http.Request) {
+		deliveryHttp.Success(w, http.StatusOK, "selamat datang!", nil)
+	})
+
 	// Health check endpoint
 	mux.HandleFunc("/health", func(w http.ResponseWriter, r *http.Request) {
 		if r.Method != http.MethodGet {
