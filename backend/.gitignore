@@ -6,10 +6,7 @@ ecommerce-backend
 # Dependencies
 vendor/
 
-# Environment files
-.env
-.env.local
-.env.*
+
 
 # IDE & OS files
 .idea/
